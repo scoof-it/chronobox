@@ -6,8 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import Button from "./ui/Button";
 import Link from "next/link";
-import { FaGoogle, FaUser } from "react-icons/fa";
-import { FiX } from "react-icons/fi";
+import Modal from "./ui/Modal";
 
 export default function Header() {
     const [user, setUser] = useState<User | null>(null);
@@ -54,14 +53,21 @@ export default function Header() {
                     <div className="relative">
                         <div className="flex items-center space-x-2">
                             {iconUrl ? (
-                                <img
-                                    src={iconUrl}
-                                    alt="User Icon"
-                                    className="w-10 h-10 rounded-full object-cover cursor-pointer"
-                                    onClick={toggleUserMenu}
-                                />
+                                <div onClick={toggleUserMenu} className="cursor-pointer w-[36px] h-[36px] border rounded-full overflow-hidden">
+                                    <img
+                                        src={iconUrl}
+                                        alt="User Icon"
+                                        className="w-full"
+                                    />
+                                </div>
                             ) : (
-                                <FaUser className="text-white cursor-pointer bg-[#007bff]" onClick={toggleUserMenu} />
+                                <div onClick={toggleUserMenu} className="cursor-pointer w-[36px] h-[36px] border rounded-full overflow-hidden">
+                                    <img
+                                        src={`https://api.dicebear.com/9.x/rings/svg?seed=${username}`}
+                                        alt="avatar"
+                                        className="w-full"
+                                    />
+                                </div>       
                             )}
                         </div>
 
@@ -99,21 +105,15 @@ export default function Header() {
                 )}
             </div>
 
-            {/* モーダル */}
-            {showModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="w-80 bg-white p-6 rounded shadow">
-                        <div className="flex items-center mb-6">
-                            <h2 className="text-[20px] font-bold">Googleでログイン</h2>
-                            <FiX className="ml-auto text-[20px] opacity-50 cursor-pointer" onClick={() => setShowModal(false)} />
-                        </div>
-                        <p className="mb-4">ChronoBoxで、学生生活をもっとスムーズに。スケジュール管理を簡単サポートするWebサービスです。</p>
-                        <Button onClick={handleLogin} className="w-full" variant="secondary" leftIcon={<FaGoogle />}>
-                            Googleでログイン
-                        </Button>
-                    </div>
-                </div>
-            )}
+            <Modal
+                title="Googleでログイン"
+                description="ChronoBoxで、学生生活をもっとスムーズに。スケジュール管理を簡単サポートするWebサービスです。"
+                confirmText="ログイン"
+                cancelText="キャンセル"
+                onConfirm={handleLogin}
+                onCancel={() => setShowModal(false)}
+                isVisible={showModal}
+            />
         </div>
     );
 }

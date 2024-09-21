@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({
     <div className={`flex items-center border transition-all duration-200 ease-in-out ${className} ${variantClasses[variant]} ${sizeClasses[size]} ${roundedClasses[rounded]}`}>
       {leftIcon && <span className="mr-2">{leftIcon}</span>}
       <input
-        id={id}  // idをここに設定
+        id={id}
         type={type}
         value={value}
         onChange={onChange}

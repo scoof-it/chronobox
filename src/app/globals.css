@@ -118,6 +118,13 @@ body {
 .button-secondary:hover {
   background-color: #bfdeff;
 }
+.button-cancel {
+  background-color: #f0f0f0;
+  color: #969696;
+}
+.button-cancel:hover {
+  background-color: #dcdcdc;
+}
 .button-danger {
   background-color: #ffd9d9;
   color: #ff0000;
