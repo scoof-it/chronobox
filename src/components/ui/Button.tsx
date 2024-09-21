@@ -7,6 +7,8 @@ type ButtonProps = {
   rounded?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   className?: string;
   children: React.ReactNode;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   onClick?: () => void;
 };
 
@@ -17,6 +19,8 @@ const Button: React.FC<ButtonProps> = ({
   rounded = 'full',
   className = '',
   children, 
+  leftIcon, 
+  rightIcon,
   onClick 
 }) => {
   const sizeClasses = {
@@ -50,11 +54,14 @@ const Button: React.FC<ButtonProps> = ({
         ${variantClasses[variant]} 
         ${roundedClasses[rounded]} 
         font-bold cursor-pointer border-none transition-all duration-200 ease-in-out
+        flex items-center justify-center gap-2
         ${className}
       `}
       onClick={onClick}
     >
+      {leftIcon && <span>{leftIcon}</span>}
       {children}
+      {rightIcon && <span>{rightIcon}</span>}
     </button>
   );
 };

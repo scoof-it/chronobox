@@ -7,12 +7,12 @@
   --foreground: #222;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #222;
     --foreground: #f4f4f8;
   }
-}
+} */
 
 body {
   color: var(--foreground);
@@ -136,4 +136,21 @@ button:focus-visible {
 }
 .button-danger:focus-visible {
   box-shadow: 0 0 0 4px rgba(255, 0, 0, .5);
+}
+
+/* input */
+.input-primary {
+  background-color: #fff;
+}
+.input-primary:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, .25);
+}
+.input-danger {
+  background-color: #fff;
+  color: #ff0000;
+  border-color: #ff0000;
+}
+.input-danger:focus-within {
+  box-shadow: 0 0 0 4px rgba(255, 0, 0, .25);
 }
