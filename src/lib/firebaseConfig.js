@@ -4,12 +4,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDr8vFLNDeIt-PkFzk3i25VOt_BmExF2dA",
-  authDomain: "chronobox-u.firebaseapp.com",
-  projectId: "chronobox-u",
-  storageBucket: "chronobox-u.appspot.com",
-  messagingSenderId: "6230113966",
-  appId: "1:6230113966:web:b074fa329528c75796b73f"
+  apiKey: "AIzaSyC_jG5gdvjFGwovFs6UCZF872TUXVks5X4",
+  authDomain: "chrono-box.firebaseapp.com",
+  projectId: "chrono-box",
+  storageBucket: "chrono-box.appspot.com",
+  messagingSenderId: "787640700742",
+  appId: "1:787640700742:web:8f3243156d5f053db35f47"
 };
 
 const app = initializeApp(firebaseConfig);

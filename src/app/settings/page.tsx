@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import Header from "@/components/Header";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
+import Footer from "@/components/Footer";
 
 export default function Settings() {
     const [username, setUsername] = useState<string>("");
@@ -159,13 +160,15 @@ export default function Settings() {
             <Modal
                 title="アカウントを削除しますか？"
                 description="アカウントを削除すると、すべてのデータが失われます。この操作は取り消せません。"
-                confirmText="削除する"
-                cancelText="キャンセル"
-                confirmVariant="danger"
-                onConfirm={handleDeleteAccount}
-                onCancel={closeDeleteModal}
+                onClose={closeDeleteModal}
                 isVisible={showDeleteModal}
+                footer={
+                    <>
+                        <Button variant="danger" onClick={handleDeleteAccount}>削除する</Button>
+                    </>
+                }
             />
+            <Footer />
         </div>
     );
 }

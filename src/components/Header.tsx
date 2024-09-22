@@ -7,6 +7,7 @@ import Image from "next/image";
 import Button from "./ui/Button";
 import Link from "next/link";
 import Modal from "./ui/Modal";
+import { FaGoogle } from "react-icons/fa";
 
 export default function Header() {
     const [user, setUser] = useState<User | null>(null);
@@ -78,9 +79,11 @@ export default function Header() {
                                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b">
                                         {username}
                                     </li>
-                                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                        ダッシュボード
-                                    </li>
+                                    <Link href="/dashboard" passHref>
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                            ダッシュボード
+                                        </li>
+                                    </Link>
                                     <Link href="/settings" passHref>
                                         <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b">
                                             設定
@@ -108,11 +111,13 @@ export default function Header() {
             <Modal
                 title="Googleでログイン"
                 description="ChronoBoxで、学生生活をもっとスムーズに。スケジュール管理を簡単サポートするWebサービスです。"
-                confirmText="ログイン"
-                cancelText="キャンセル"
-                onConfirm={handleLogin}
-                onCancel={() => setShowModal(false)}
+                onClose={() => setShowModal(false)}
                 isVisible={showModal}
+                footer={
+                    <>
+                        <Button className="w-full" leftIcon={<FaGoogle />} onClick={handleLogin}>Googleでログイン</Button>
+                    </>
+                }
             />
         </div>
     );
