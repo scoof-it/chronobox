@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // useRouterをインポート
+import { useRouter } from "next/navigation"; 
 import { doc, getDoc, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { auth, db, storage } from "@/lib/firebaseConfig";
 import { User, deleteUser, reauthenticateWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -11,14 +11,16 @@ import Header from "@/components/Header";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Footer from "@/components/Footer";
+import AlertMessage from "@/components/ui/AlertMessage"; // AlertMessageをインポート
 
 export default function Settings() {
     const [username, setUsername] = useState<string>("");
     const [user, setUser] = useState<User | null>(null);
-    const [iconFile, setIconFile] = useState<File | null>(null);
+    const [iconFile, setIconFile] = useState<File | null>(null); // 必要なので残す
     const [iconUrl, setIconUrl] = useState<string>("");
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const router = useRouter(); // useRouterフックを初期化
+    const [alertMessage, setAlertMessage] = useState<{ message: string; type: "success" | "error" } | null>(null); 
+    const router = useRouter();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -48,8 +50,13 @@ export default function Settings() {
                 setIconUrl(downloadURL);
             }
 
-            await setDoc(userRef, updatedData, { merge: true });
-            alert("プロフィールが更新されました！");
+            try {
+                await setDoc(userRef, updatedData, { merge: true });
+                setAlertMessage({ message: "プロフィールが更新されました！", type: "success" });
+            } catch (e) {
+                console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
+                setAlertMessage({ message: "プロフィールの更新に失敗しました。", type: "error" });
+            }
         }
     };
 
@@ -63,13 +70,13 @@ export default function Settings() {
         if (user && iconUrl) {
             try {
                 const iconRef = ref(storage, `icons/${user.uid}`);
-                await deleteObject(iconRef); // Firebase Storageから削除
-                await updateDoc(doc(db, "users", user.uid), { iconUrl: "" }); // FirestoreでiconUrlをクリア
-                setIconUrl(""); // 状態を更新
-                alert("アイコンが削除されました！");
-            } catch (error) {
-                console.error("アイコンの削除に失敗しました", error);
-                alert("アイコンの削除に失敗しました。");
+                await deleteObject(iconRef); 
+                await updateDoc(doc(db, "users", user.uid), { iconUrl: "" }); 
+                setIconUrl(""); 
+                setAlertMessage({ message: "アイコンが削除されました！", type: "success" });
+            } catch (e) {
+                console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
+                setAlertMessage({ message: "アイコンの削除に失敗しました。", type: "error" });
             }
         }
     };
@@ -77,29 +84,20 @@ export default function Settings() {
     const handleDeleteAccount = async () => {
         if (user) {
             try {
-                // Google認証を使用して再認証
                 const provider = new GoogleAuthProvider();
                 await reauthenticateWithPopup(user, provider);
 
-                // 再認証成功後にアカウント削除処理を実行
-                await deleteDoc(doc(db, "users", user.uid)); // Firestoreのユーザーデータを削除
-                await deleteUser(user); // Firebase Authenticationからユーザー削除
+                await deleteDoc(doc(db, "users", user.uid)); 
+                await deleteUser(user); 
 
-                alert("アカウントが削除されました！");
-                
-                // アカウント削除後にトップページへリダイレクト
+                setAlertMessage({ message: "アカウントが削除されました！", type: "success" });
                 router.push("/"); 
-            } catch (error) {
-                if (error instanceof FirebaseError) {
-                    console.error("アカウントの削除に失敗しました", error);
-                    if (error.code === "auth/requires-recent-login") {
-                        alert("セキュリティのために再ログインが必要です。もう一度ログインしてください。");
-                    } else {
-                        alert("アカウントの削除に失敗しました。");
-                    }
+            } catch (e) {
+                if (e instanceof FirebaseError && e.code === "auth/requires-recent-login") {
+                    setAlertMessage({ message: "セキュリティのために再ログインが必要です。", type: "error" });
                 } else {
-                    console.error("予期しないエラーが発生しました", error);
-                    alert("予期しないエラーが発生しました。");
+                    console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
+                    setAlertMessage({ message: "アカウントの削除に失敗しました。", type: "error" });
                 }
             }
         }
@@ -118,6 +116,13 @@ export default function Settings() {
             <Header />
             <div className="mt-10 md:container mx-5 md:mx-auto">
                 <h2 className="text-2xl font-bold mb-5">プロフィール</h2>
+                {alertMessage && (
+                    <AlertMessage
+                        message={alertMessage.message}
+                        type={alertMessage.type}
+                        onClose={() => setAlertMessage(null)}
+                    />
+                )}
                 <div className="mb-5">
                     <label className="block text-sm">アイコン画像</label>
                     {iconUrl && (
@@ -125,14 +130,14 @@ export default function Settings() {
                             <div className="mt-2.5 border rounded-full overflow-hidden w-fit mr-2.5">
                                 <img src={iconUrl} alt="User Icon" className="w-20 h-20" />
                             </div>
-                            <div >
+                            <div>
                                 <Button onClick={handleIconDelete} variant="danger" size="small">
                                     アイコンを削除
                                 </Button>
                             </div>
                         </div>
                     )}
-                    <input type="file" onChange={handleIconChange} className="border bg-white w-full rounded-md px-4 py-3 mt-2.5" />
+                    <Input type="file" onChange={handleIconChange} className="mt-2.5" />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="username" className="block text-sm mb-1.5">表示名</label>

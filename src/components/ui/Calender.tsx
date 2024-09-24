@@ -67,9 +67,6 @@ export default function Calendar({ currentYear, currentMonth, prevMonth, nextMon
           </div>
         ))}
       </div>
-      <div className="flex">
-        <Button className="ml-auto">スケジュールを追加</Button>
-      </div>
     </div>
   );
 }

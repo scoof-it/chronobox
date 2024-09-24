@@ -15,7 +15,6 @@ export default function Footer() {
                     <p className="text-[20px] font-bold">Legal</p>
                     <Link href="#">利用規約</Link>
                     <Link href="#">プライバシーポリシー</Link>
-                    <Link href="#">お知らせ</Link>
                 </div>
                 <div className="space-y-2 flex flex-col">
                     <p className="text-[20px] font-bold">Guides</p>
@@ -24,8 +23,8 @@ export default function Footer() {
                 </div>
                 <div className="space-y-2 flex flex-col">
                     <p className="text-[20px] font-bold">About</p>
-                    <Link href="#">ChronoBoxとは</Link>
-                    <Link href="#">運営</Link>
+                    <Link href="#">ChronoBoxについて</Link>
+                    <Link href="#">運営者</Link>
                 </div>
             </div>
         </div>
