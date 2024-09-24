@@ -84,3 +84,12 @@ button:focus-visible {
 .input-danger:focus-within {
   box-shadow: 0 0 0 4px rgba(255, 0, 0, .25);
 }
+
+.link-underline {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+button:focus-visible {
+  z-index: 10;
+}

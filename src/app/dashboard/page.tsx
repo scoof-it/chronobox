@@ -102,7 +102,7 @@ export default function Dashboard() {
                     </div>
                     <div>
                         {selectedDay && (
-                            <div className="p-5 bg-white border rounded space-y-2.5">
+                            <div className="p-5 bg-white border rounded-md space-y-2.5">
                                 <h2 className="text-[20px] font-bold">{`${currentYear}年${currentMonth + 1}月${selectedDay}日`}</h2>
                                 <div className="flex space-x-2.5">
                                     <Input
