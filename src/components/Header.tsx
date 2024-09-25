@@ -8,7 +8,7 @@ import Button from "./ui/Button";
 import Link from "next/link";
 import Modal from "./ui/Modal";
 import { FaGoogle } from "react-icons/fa";
-import { FiGrid, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
+import { FiGrid, FiLogOut, FiSettings, FiTool, FiUser } from "react-icons/fi";
 
 export default function Header() {
     const [user, setUser] = useState<User | null>(null);
@@ -78,28 +78,36 @@ export default function Header() {
                             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg border rounded-md z-50">
                                 <ul className="py-2">
                                     <Link href="#" passHref>
-                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b flex items-center">
-                                            <FiUser className="opacity-40 mr-[6px]" />
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                                            <FiUser className="opacity-40 mr-2" />
                                             {username}
                                         </li>
                                     </Link>
+                                    <hr className="my-2" />
                                     <Link href="/dashboard" passHref>
                                         <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                                            <FiGrid className="opacity-40 mr-[6px]" />
+                                            <FiGrid className="opacity-40 mr-2" />
                                             ダッシュボード
                                         </li>
                                     </Link>
                                     <Link href="/settings" passHref>
-                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b flex items-center">
-                                            <FiSettings className="opacity-40 mr-[6px]" />
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                                            <FiSettings className="opacity-40 mr-2" />
                                             設定
                                         </li>
                                     </Link>
+                                    <Link href="/tools" passHref>
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                                            <FiTool className="opacity-40 mr-2" />
+                                            ツール
+                                        </li>
+                                    </Link>
+                                    <hr className="my-2" />
                                     <li
                                         className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center"
                                         onClick={() => signOut(auth)}
                                     >
-                                        <FiLogOut className="opacity-40 mr-[6px]" />
+                                        <FiLogOut className="opacity-40 mr-2" />
                                         ログアウト
                                     </li>
                                 </ul>

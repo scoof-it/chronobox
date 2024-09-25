@@ -6,9 +6,11 @@ export default function Footer() {
         <div className="mt-20 py-8 bg-white border-t">
             <div className="mx-5 md:container md:mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
-                    <div className="w-40">
-                        <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
-                    </div>
+                    <Link href="/">
+                        <div className="w-40">
+                            <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
+                        </div>
+                    </Link>
                     <p>&copy; 2024 scoof.</p>
                 </div>
                 <div className="space-y-2 flex flex-col">

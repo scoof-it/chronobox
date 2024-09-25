@@ -29,6 +29,9 @@ export default function Home() {
               <p className="text-sm">ChronoBoxで、勉強や課題のスケジュールを簡単に管理できます。</p>
             </div>
         </div>
+        <div className="mt-10 md:mt-0 flex justify-center">
+          <img src="/happy.png" />
+        </div>
       </div>
       <Footer />
     </div>

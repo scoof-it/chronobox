@@ -93,3 +93,17 @@ button:focus-visible {
 button:focus-visible {
   z-index: 10;
 }
+
+.calculator-button {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0px 4px 0px 0px #000;
+  transition: all .2s;
+}
+.calculator-button.red {
+  background-color: #ff0000;
+}
+.calculator-button:active {
+  box-shadow: none;
+  transform: translateY(+4px);
+}
