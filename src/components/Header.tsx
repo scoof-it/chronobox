@@ -80,7 +80,7 @@ export default function Header() {
                                     <Link href="#" passHref>
                                         <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b flex items-center">
                                             <FiUser className="opacity-40 mr-[6px]" />
-                                            <p>{username}</p>
+                                            {username}
                                         </li>
                                     </Link>
                                     <Link href="/dashboard" passHref>

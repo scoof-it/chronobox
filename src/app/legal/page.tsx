@@ -3,12 +3,13 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import { Suspense } from "react"; // Import Suspense
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function Legal() {
+function LegalContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const currentTab = searchParams.get("tab") || "terms"; // デフォルトは"terms"
+    const currentTab = searchParams.get("tab") || "terms";
 
     const handleTabChange = (tab: "terms" | "privacy") => {
         router.push(`?tab=${tab}`);
@@ -54,12 +55,12 @@ export default function Legal() {
                             <h3 className="text-xl font-bold mb-2">2. 禁止事項</h3>
                             <p className="text-lg mb-4">
                                 ユーザーは以下の行為を行ってはなりません:
-                                <ul className="list-disc list-inside">
-                                    <li>不正アクセスやサーバーへの攻撃</li>
-                                    <li>他のユーザーや第三者に対する迷惑行為</li>
-                                    <li>法律に違反する行為やコンテンツの投稿</li>
-                                </ul>
                             </p>
+                            <ul className="list-disc list-inside mb-4">
+                                <li>不正アクセスやサーバーへの攻撃</li>
+                                <li>他のユーザーや第三者に対する迷惑行為</li>
+                                <li>法律に違反する行為やコンテンツの投稿</li>
+                            </ul>
                             <h3 className="text-xl font-bold mb-2">3. サービスの停止・変更</h3>
                             <p className="text-lg">
                                 当サービスは、事前の通知なく一時的または永久的にサービスの内容を変更、停止することがあります。これに対し、ユーザーは異議を申し立てないものとします。
@@ -75,21 +76,21 @@ export default function Legal() {
                             <h3 className="text-xl font-bold mb-2">1. 収集する情報</h3>
                             <p className="text-lg mb-4">
                                 当サービスは、Googleアカウントを通じて以下の情報を収集する場合があります:
-                                <ul className="list-disc list-inside">
-                                    <li>氏名、メールアドレス</li>
-                                    <li>Googleアカウントに関連するプロファイル情報</li>
-                                    <li>サービス利用に関するデータ（アクセスログ、行動履歴など）</li>
-                                </ul>
                             </p>
+                            <ul className="list-disc list-inside mb-4">
+                                <li>氏名、メールアドレス</li>
+                                <li>Googleアカウントに関連するプロファイル情報</li>
+                                <li>サービス利用に関するデータ（アクセスログ、行動履歴など）</li>
+                            </ul>
                             <h3 className="text-xl font-bold mb-2">2. 情報の利用目的</h3>
                             <p className="text-lg mb-4">
                                 収集した情報は、以下の目的に利用されます:
-                                <ul className="list-disc list-inside">
-                                    <li>サービス提供のための本人確認</li>
-                                    <li>サービス向上のための利用状況の分析</li>
-                                    <li>法的要求に基づく開示義務が生じた場合の対応</li>
-                                </ul>
                             </p>
+                            <ul className="list-disc list-inside mb-4">
+                                <li>サービス提供のための本人確認</li>
+                                <li>サービス向上のための利用状況の分析</li>
+                                <li>法的要求に基づく開示義務が生じた場合の対応</li>
+                            </ul>
                             <h3 className="text-xl font-bold mb-2">3. 情報の共有</h3>
                             <p className="text-lg">
                                 当サービスは、ユーザーの許可なく第三者に個人情報を共有することはありません。ただし、法的義務に従う場合、またはサービス提供に必要な範囲で外部サービスと連携する場合を除きます。
@@ -100,5 +101,13 @@ export default function Legal() {
             </div>
             <Footer />
         </div>
+    );
+}
+
+export default function Legal() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LegalContent />
+        </Suspense>
     );
 }
