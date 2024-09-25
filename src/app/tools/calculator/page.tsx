@@ -115,12 +115,16 @@ export default function Calculator() {
                 </div>
                 <div>
                     <hr className="my-10 md:hidden" />
-                    <h2 className="text-2xl font-bold mb-5">Memo</h2>
-                    <ul className="list-inside space-y-2">
-                        {notes.map((note, index) => (
-                            <li key={index} className="bg-white px-4 py-2 shadow border rounded-lg">{note}</li>
-                        ))}
-                    </ul>
+                    <h2 className="text-2xl font-bold mb-5">メモ</h2>
+                    {notes.length === 0 ? (
+                        <p className="text-xl text-gray-500 opacity-50 font-bold">メモがありません</p>
+                    ) : (
+                        <ul className="list-inside space-y-2">
+                            {notes.map((note, index) => (
+                                <li key={index} className="bg-white px-4 py-2 shadow border rounded-lg">{note}</li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
             </div>
             <Footer />
