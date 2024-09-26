@@ -37,15 +37,15 @@ export default function Calculator() {
             <Header />
             <div className="md:container md:mx-auto mt-10 mx-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* 電卓 */}
-                <div className="max-w-md w-full">
+                <div className="border rounded-lg shadow-lg p-5 max-w-md w-full">
                     <div className="text-right text-2xl mb-5 px-3 py-2 bg-white rounded border font-mono">{input || "0"}</div>
                     <div className="text-right text-[32px] font-bold mb-5 px-3 py-2 bg-white rounded border font-mono">{result}</div>
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-4 gap-4 pb-[4px]">
                         {/* ボタン群 */}
                         {["1", "2", "3", "+"].map((val) => (
                             <button
                                 key={val}
-                                className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                                className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                                 onClick={() => handleClick(val)}
                             >
                                 {val}
@@ -54,7 +54,7 @@ export default function Calculator() {
                         {["4", "5", "6", "-"].map((val) => (
                             <button
                                 key={val}
-                                className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                                className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                                 onClick={() => handleClick(val)}
                             >
                                 {val}
@@ -63,44 +63,44 @@ export default function Calculator() {
                         {["7", "8", "9", "*"].map((val) => (
                             <button
                                 key={val}
-                                className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                                className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                                 onClick={() => handleClick(val)}
                             >
                                 {val}
                             </button>
                         ))}
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button red border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button red border border-black"
                             onClick={handleClear}
                         >
                             C
                         </button>
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                             onClick={() => handleClick("0")}
                         >
                             0
                         </button>
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button red border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button red border border-black"
                             onClick={handleCalculate}
                         >
                             =
                         </button>
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                             onClick={() => handleClick("/")}
                         >
                             /
                         </button>
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                             onClick={() => handleClick("(")}
                         >
                             (
                         </button>
                         <button
-                            className="px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
+                            className="font-mono px-4 py-3 md:text-lg font-bold rounded-lg calculator-button border border-black"
                             onClick={() => handleClick(")")}
                         >
                             )
