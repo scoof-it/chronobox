@@ -88,7 +88,7 @@ export default function Chart() {
             <Layout>
                 <div className="p-4 space-y-4">
                     <h2 className="text-primary text-2xl font-bold">成績統計</h2>
-                    <div className="flex">
+                    <div className="md:flex">
                         <Input
                             type="text"
                             value={inputValues}
@@ -97,7 +97,7 @@ export default function Chart() {
                             size="small"
                             className="w-full"
                         />
-                        <Button onClick={toggleChartType} size="small" className="whitespace-nowrap ml-2">
+                        <Button onClick={toggleChartType} size="small" className="whitespace-nowrap w-full md:w-auto mt-2 md:mt-0 md:ml-2">
                             {isBarChart ? '線グラフに切り替える' : '棒グラフに切り替える'}
                         </Button>
                     </div>
