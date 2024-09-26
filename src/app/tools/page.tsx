@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { FaCalculator, FaChartArea, FaClock } from "react-icons/fa";
+import { FaCalculator, FaChartArea } from "react-icons/fa";
 
 interface Tool {
   href: string;
@@ -24,12 +24,6 @@ const tools: Tool[] = [
         icon: <FaCalculator />,
         title: "電卓",
         description: "シンプルなUIで、計算に困った時にすぐに使えるツールです。",
-    },
-    {
-        href: "/tools/timer",
-        icon: <FaClock />,
-        title: "タイマー",
-        description: "学習時間を効率的に管理できるタイマー付きのポモドーロ学習ツールです。",
     },
 ];
 
