@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import { Line, Bar } from 'react-chartjs-2';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation'; // useSearchParams のみをインポート
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import Input from "@/components/ui/Input";
@@ -21,7 +21,8 @@ ChartJS.register(
   Legend
 );
 
-export default function Chart() {
+// Suspenseで包むためのクライアントサイド専用のコンポーネント
+function ChartComponent() {
     const searchParams = useSearchParams();
     
     // クエリパラメータからデータセットを読み取る
@@ -112,45 +113,52 @@ export default function Chart() {
     };
 
     return (
+        <div className="p-4 space-y-4">
+            <h2 className="text-primary text-2xl font-bold">成績統計</h2>
+            <div className="space-y-2">
+                {scoresList.map((_, index) => (
+                    <div key={index} className="space-y-2">
+                        <Input
+                            type="text"
+                            value={inputValuesList[index]}
+                            onChange={(e) => handleInputChange(e, index)}
+                            placeholder={`データセット${index + 1}の点数をカンマ区切りで入力`}
+                            size="small"
+                            className="w-full"
+                        />
+                    </div>
+                ))}
+                <div className="flex justify-center">
+                    <Button variant="secondary" size="small" onClick={addNewDataset} leftIcon={<FaPlus />}>
+                        データセットを追加
+                    </Button>
+                </div>
+            </div>
+            <div className="flex justify-between space-x-2">
+                <Button onClick={toggleChartType} size="small">
+                    表示切り替え
+                </Button>
+                <Button variant="secondary" onClick={shareDataset} leftIcon={<FaShare />} size="small">
+                    共有
+                </Button>
+            </div>
+            {isBarChart ? (
+                <Bar data={data} options={options} />
+            ) : (
+                <Line data={data} options={options} />
+            )}
+        </div>
+    );
+}
+
+export default function Chart() {
+    return (
         <div>
             <Header />
             <Layout>
-                <div className="p-4 space-y-4">
-                    <h2 className="text-primary text-2xl font-bold">成績統計</h2>
-                    <div className="space-y-2">
-                        {scoresList.map((_, index) => (
-                            <div key={index} className="space-y-2">
-                                <Input
-                                    type="text"
-                                    value={inputValuesList[index]}
-                                    onChange={(e) => handleInputChange(e, index)}
-                                    placeholder={`データセット${index + 1}の点数をカンマ区切りで入力`}
-                                    size="small"
-                                    className="w-full"
-                                />
-                            </div>
-                        ))}
-                        <div className="flex justify-center">
-                            <Button variant="secondary" size="small" onClick={addNewDataset} leftIcon={<FaPlus />}>
-                                データセットを追加
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="flex justify-between space-x-2">
-                        <Button onClick={toggleChartType} size="small">
-                            表示切り替え
-                        </Button>
-                        <Button variant="secondary" onClick={shareDataset} leftIcon={<FaShare />} size="small">
-                            共有
-                        </Button>
-                    </div>
-                    {/* グラフ表示の切り替え */}
-                    {isBarChart ? (
-                        <Bar data={data} options={options} />
-                    ) : (
-                        <Line data={data} options={options} />
-                    )}
-                </div>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <ChartComponent />
+                </Suspense>
             </Layout>
             <Footer />
         </div>
