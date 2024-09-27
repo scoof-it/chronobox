@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { FaCalculator, FaChartArea } from "react-icons/fa";
+import { FiTool } from "react-icons/fi";
 
 interface Tool {
   href: string;
@@ -32,6 +33,9 @@ export default function Tools() {
     <div>
       <Header />
       <Layout>
+        <div className="flex flex-col items-center mb-10">
+          <h1 className="flex items-center text-[32px] text-primary font-bold gap-2"><FiTool />ツール</h1>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {tools.map((tool, index) => (
             <Link href={tool.href} key={index}>

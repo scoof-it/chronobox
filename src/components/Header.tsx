@@ -46,7 +46,7 @@ export default function Header() {
     };
 
     return (
-        <div className="bg-white flex items-center p-4 border-b">
+        <div className="bg-white flex items-center p-4 border-b h-[69px]">
             <Link href="/" className="w-36">
                 <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
             </Link>
@@ -104,7 +104,7 @@ export default function Header() {
                                     </Link>
                                     <hr className="my-2" />
                                     <li
-                                        className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center"
+                                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
                                         onClick={() => signOut(auth)}
                                     >
                                         <FiLogOut className="opacity-40 mr-2" />
