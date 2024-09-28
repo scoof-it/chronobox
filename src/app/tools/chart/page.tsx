@@ -10,6 +10,7 @@ import { Bar, Line, Pie } from 'react-chartjs-2';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { FiTrash } from 'react-icons/fi';
 
 ChartJS.register(
   CategoryScale,
@@ -109,6 +110,13 @@ function ChartComponent() {
         setInputValuesList([...inputValuesList, '0,0,0,0,0']);
     };
 
+    const deleteDataset = (index: number) => {
+        const newScoresList = scoresList.filter((_, i) => i !== index);
+        const newInputValuesList = inputValuesList.filter((_, i) => i !== index);
+        setScoresList(newScoresList);
+        setInputValuesList(newInputValuesList);
+    };
+
     const toggleChartType = () => {
         setChartType((prev) => {
             if (prev === 'line') return 'bar';
@@ -133,7 +141,7 @@ function ChartComponent() {
             <h2 className="text-primary text-2xl font-bold">成績統計</h2>
             <div className="space-y-2">
                 {scoresList.map((_, index) => (
-                    <div key={index} className="space-y-2">
+                    <div key={index} className="space-x-2 flex">
                         <Input
                             type="text"
                             value={inputValuesList[index]}
@@ -142,6 +150,14 @@ function ChartComponent() {
                             size="small"
                             className="w-full"
                         />
+                        <Button
+                            size="small"
+                            variant='danger'
+                            className="whitespace-nowrap"
+                            onClick={() => deleteDataset(index)}
+                        >
+                            <FiTrash />
+                        </Button>
                     </div>
                 ))}
                 <div className="flex justify-center">
