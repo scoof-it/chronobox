@@ -11,15 +11,15 @@ import Header from "@/components/Header";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Footer from "@/components/Footer";
-import AlertMessage from "@/components/ui/AlertMessage"; // AlertMessageをインポート
+import AlertMessage from "@/components/ui/AlertMessage";
 
 export default function Settings() {
     const [username, setUsername] = useState<string>("");
     const [user, setUser] = useState<User | null>(null);
-    const [iconFile, setIconFile] = useState<File | null>(null); // 必要なので残す
+    const [iconFile, setIconFile] = useState<File | null>(null);
     const [iconUrl, setIconUrl] = useState<string>("");
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [alertMessage, setAlertMessage] = useState<{ message: string; type: "success" | "error" } | null>(null); 
+    const [alertMessage, setAlertMessage] = useState<{ message: string; type: "success" | "error" } | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -43,19 +43,48 @@ export default function Settings() {
             let updatedData: { username: string; iconUrl?: string } = { username };
 
             if (iconFile) {
-                const iconRef = ref(storage, `icons/${user.uid}`);
-                const uploadTask = uploadBytesResumable(iconRef, iconFile);
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                updatedData = { ...updatedData, iconUrl: downloadURL };
-                setIconUrl(downloadURL);
+                if (iconUrl) {
+                    try {
+                        const existingIconRef = ref(storage, `icons/${user.uid}`);
+                        await deleteObject(existingIconRef);
+                    } catch (e) {
+                        if (e instanceof FirebaseError && e.code !== "storage/object-not-found") {
+                            console.error("Failed to delete existing icon:", e);
+                            setAlertMessage({ message: "古いアイコンの削除に失敗しました", type: "error" });
+                            return;
+                        }
+                    }
+                }
+
+                try {
+                    const iconRef = ref(storage, `icons/${user.uid}`);
+                    const uploadTask = uploadBytesResumable(iconRef, iconFile);
+
+                    await new Promise<void>((resolve, reject) => {
+                        uploadTask.on(
+                            "state_changed",
+                            () => {},
+                            (error) => reject(error),
+                            () => resolve()
+                        );
+                    });
+
+                    const downloadURL = await getDownloadURL(iconRef);
+                    updatedData = { ...updatedData, iconUrl: downloadURL };
+                    setIconUrl(downloadURL);
+                } catch (e) {
+                    console.error("Failed to upload icon:", e);
+                    setAlertMessage({ message: "アイコンのアップロードに失敗しました。もう一度試してください。", type: "error" });
+                    return;
+                }
             }
 
             try {
                 await setDoc(userRef, updatedData, { merge: true });
-                setAlertMessage({ message: "プロフィールが更新されました！", type: "success" });
+                setAlertMessage({ message: "プロフィールが更新されました", type: "success" });
             } catch (e) {
-                console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
-                setAlertMessage({ message: "プロフィールの更新に失敗しました。", type: "error" });
+                console.error("Failed to update profile:", e);
+                setAlertMessage({ message: "プロフィールの更新に失敗しました", type: "error" });
             }
         }
     };
@@ -70,12 +99,12 @@ export default function Settings() {
         if (user && iconUrl) {
             try {
                 const iconRef = ref(storage, `icons/${user.uid}`);
-                await deleteObject(iconRef); 
-                await updateDoc(doc(db, "users", user.uid), { iconUrl: "" }); 
-                setIconUrl(""); 
+                await deleteObject(iconRef);
+                await updateDoc(doc(db, "users", user.uid), { iconUrl: "" });
+                setIconUrl("");
                 setAlertMessage({ message: "アイコンが削除されました！", type: "success" });
             } catch (e) {
-                console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
+                console.error("Failed to delete icon:", e);
                 setAlertMessage({ message: "アイコンの削除に失敗しました。", type: "error" });
             }
         }
@@ -87,17 +116,17 @@ export default function Settings() {
                 const provider = new GoogleAuthProvider();
                 await reauthenticateWithPopup(user, provider);
 
-                await deleteDoc(doc(db, "users", user.uid)); 
-                await deleteUser(user); 
+                await deleteDoc(doc(db, "users", user.uid));
+                await deleteUser(user);
 
-                setAlertMessage({ message: "アカウントが削除されました！", type: "success" });
-                router.push("/"); 
+                setAlertMessage({ message: "アカウントが削除されました", type: "success" });
+                router.push("/");
             } catch (e) {
                 if (e instanceof FirebaseError && e.code === "auth/requires-recent-login") {
-                    setAlertMessage({ message: "セキュリティのために再ログインが必要です。", type: "error" });
+                    setAlertMessage({ message: "セキュリティのために再ログインが必要です", type: "error" });
                 } else {
-                    console.error(e); // error変数を使用しないため、代わりにeとしてログに出力
-                    setAlertMessage({ message: "アカウントの削除に失敗しました。", type: "error" });
+                    console.error("Failed to delete account:", e);
+                    setAlertMessage({ message: "アカウントの削除に失敗しました", type: "error" });
                 }
             }
         }

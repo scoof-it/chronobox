@@ -39,8 +39,8 @@ export default function Tools() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {tools.map((tool, index) => (
             <Link href={tool.href} key={index}>
-              <div className="p-4 bg-white text-primary border border-primary rounded-md">
-                <div className="flex items-center mb-0.5">
+              <div className="p-4 bg-white border rounded-md">
+                <div className="flex items-center mb-0.5 text-primary">
                   {tool.icon}
                   <p className="font-bold ml-2">{tool.title}</p>
                 </div>

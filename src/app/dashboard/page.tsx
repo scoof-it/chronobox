@@ -9,14 +9,16 @@ import Footer from "@/components/Footer";
 import Input from "@/components/ui/Input";
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from "@/components/ui/Calender";
+import AlertMessage from "@/components/ui/AlertMessage";
 
 export default function Dashboard() {
     const [currentYear, setCurrentYear] = useState(2024);
     const [currentMonth, setCurrentMonth] = useState(8);
     const [selectedDay, setSelectedDay] = useState<number | null>(null);
     const [scheduleTitle, setScheduleTitle] = useState<string>("");
-    const [schedules, setSchedules] = useState<{ id: string; title: string }[]>([]); // スケジュールリストを管理
+    const [schedules, setSchedules] = useState<{ id: string; title: string }[]>([]);
     const [user, setUser] = useState<User | null>(null);
+    const [alert, setAlert] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -69,9 +71,9 @@ export default function Dashboard() {
             
             const scheduleRef = doc(db, "users", user.uid, "schedules", dateKey);
             await setDoc(scheduleRef, { schedules: newSchedules }, { merge: true });
-            alert("スケジュールが保存されました！");
+            setAlert({ message: "スケジュールが保存されました", type: "success" });
             setScheduleTitle("");
-            setSchedules(newSchedules); // 状態を更新
+            setSchedules(newSchedules);
         }
     };
 
@@ -81,8 +83,8 @@ export default function Dashboard() {
             const newSchedules = schedules.filter((schedule) => schedule.id !== id);
             const scheduleRef = doc(db, "users", user.uid, "schedules", dateKey);
             await updateDoc(scheduleRef, { schedules: newSchedules });
-            setSchedules(newSchedules); // 状態を更新
-            alert("スケジュールが削除されました！");
+            setSchedules(newSchedules);
+            setAlert({ message: "スケジュールが削除されました", type: "success" });
         }
     };
 
@@ -116,20 +118,27 @@ export default function Dashboard() {
                                         保存
                                     </Button>
                                 </div>
-                                    {schedules.map((schedule) => (
-                                        <li key={schedule.id} className="flex space-x-2.5 items-center">
-                                            <p>{schedule.title}</p>
-                                            <Button onClick={() => handleDeleteSchedule(schedule.id)} variant="danger" size="small">
-                                                削除
-                                            </Button>
-                                        </li>
-                                    ))}
+                                {schedules.map((schedule) => (
+                                    <li key={schedule.id} className="flex space-x-2.5 items-center">
+                                        <p>{schedule.title}</p>
+                                        <Button onClick={() => handleDeleteSchedule(schedule.id)} variant="danger" size="small">
+                                            削除
+                                        </Button>
+                                    </li>
+                                ))}
                             </div>
                         )}
                     </div>
                 </div>
             </div>
             <Footer />
+            {alert && (
+                <AlertMessage
+                    message={alert.message}
+                    type={alert.type}
+                    onClose={() => setAlert(null)}
+                />
+            )}
         </div>
     );
 }

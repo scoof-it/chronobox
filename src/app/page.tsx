@@ -30,7 +30,9 @@ export default function Home() {
             </div>
         </div>
         <div className="mt-10 md:mt-0 flex justify-center">
-          <img src="/happy.png" />
+          <div className="w-80">
+            <img src="/752.png" />
+          </div>
         </div>
       </div>
       <Footer />
