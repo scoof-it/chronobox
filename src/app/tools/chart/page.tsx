@@ -1,14 +1,15 @@
 "use client"
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import Layout from "@/components/Layout";
-import { Line, Bar } from 'react-chartjs-2';
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation'; // useSearchParams のみをインポート
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { useSearchParams } from 'next/navigation';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { FaPlus, FaShare } from "react-icons/fa";
+import { FaExchangeAlt, FaPlus, FaShare } from "react-icons/fa";
+import Modal from "@/components/ui/Modal";
+import { Bar, Line, Pie } from 'react-chartjs-2';
+import Layout from '@/components/Layout';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 ChartJS.register(
   CategoryScale,
@@ -16,16 +17,15 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
+  ArcElement, // Pie Chart のために追加
   Title,
   Tooltip,
   Legend
 );
 
-// Suspenseで包むためのクライアントサイド専用のコンポーネント
 function ChartComponent() {
     const searchParams = useSearchParams();
-    
-    // クエリパラメータからデータセットを読み取る
+
     useEffect(() => {
         const datasetParam = searchParams.get('dataset');
         if (datasetParam) {
@@ -37,21 +37,33 @@ function ChartComponent() {
 
     const [scoresList, setScoresList] = useState<number[][]>([[65, 75, 70, 80, 90]]);
     const [inputValuesList, setInputValuesList] = useState<string[]>(['65,75,70,80,90']);
-    const [isBarChart, setIsBarChart] = useState(false);
+    const [chartType, setChartType] = useState<'line' | 'bar' | 'pie'>('line');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [shareUrl, setShareUrl] = useState(''); // New state to hold the share URL
 
-    // X軸ラベルを点数の数に応じて動的に生成
     const labels = scoresList[0]?.map((_, index) => `試験${index + 1}`);
 
-    // グラフに表示するデータ
     const data = {
         labels: labels,
-        datasets: scoresList.map((scores, index) => ({
-            label: `成績 ${index + 1}`,
-            data: scores,
-            borderColor: `hsl(${index * 60}, 70%, 50%)`,
-            backgroundColor: `hsla(${index * 60}, 70%, 50%, 0.5)`,
-            fill: true,
-        })),
+        datasets: scoresList.map((scores, index) => {
+            const baseColor = `hsl(${index * 60}, 70%, 50%)`;
+            if (chartType === 'pie') {
+                const backgroundColors = scores.map((_, i) => `hsl(${index * 60 + i * 10}, 70%, 50%)`);
+                return {
+                    label: `成績 ${index + 1}`,
+                    data: scores,
+                    backgroundColor: backgroundColors,
+                };
+            } else {
+                return {
+                    label: `成績 ${index + 1}`,
+                    data: scores,
+                    borderColor: baseColor,
+                    backgroundColor: `hsla(${index * 60}, 70%, 50%, 0.5)`,
+                    fill: true,
+                };
+            }
+        }),
     };
 
     const options = {
@@ -78,7 +90,6 @@ function ChartComponent() {
         },
     };
 
-    // ユーザーが入力した点数を各データセットに反映
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const value = e.target.value;
         const newInputValuesList = [...inputValuesList];
@@ -93,23 +104,28 @@ function ChartComponent() {
         }
     };
 
-    // 新しいデータセットを追加する関数
     const addNewDataset = () => {
         setScoresList([...scoresList, [0, 0, 0, 0, 0]]);
         setInputValuesList([...inputValuesList, '0,0,0,0,0']);
     };
 
-    // グラフタイプを切り替える関数
     const toggleChartType = () => {
-        setIsBarChart(prev => !prev);
+        setChartType((prev) => {
+            if (prev === 'line') return 'bar';
+            if (prev === 'bar') return 'pie';
+            return 'line';
+        });
     };
 
-    // データセットをURLに変換して共有リンクを生成する関数
     const shareDataset = () => {
-        const datasetParam = scoresList.map((scores) => scores.join(',')).join('|'); // データセットをクエリ用に変換
+        const datasetParam = scoresList.map((scores) => scores.join(',')).join('|');
         const url = `${window.location.origin}/tools/chart?dataset=${encodeURIComponent(datasetParam)}`;
-        navigator.clipboard.writeText(url); // クリップボードにコピー
-        alert('共有リンクがクリップボードにコピーされました！');
+        setShareUrl(url); // Set the generated URL to shareUrl state
+        setIsModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsModalVisible(false);
     };
 
     return (
@@ -135,18 +151,30 @@ function ChartComponent() {
                 </div>
             </div>
             <div className="flex justify-between space-x-2">
-                <Button onClick={toggleChartType} size="small">
+                <Button onClick={toggleChartType} leftIcon={<FaExchangeAlt />} size="small">
                     表示切り替え
                 </Button>
                 <Button variant="secondary" onClick={shareDataset} leftIcon={<FaShare />} size="small">
                     共有
                 </Button>
             </div>
-            {isBarChart ? (
-                <Bar data={data} options={options} />
-            ) : (
-                <Line data={data} options={options} />
-            )}
+            {chartType === 'bar' && <Bar data={data} options={options} />}
+            {chartType === 'line' && <Line data={data} options={options} />}
+            {chartType === 'pie' && <Pie data={data} options={options} />}
+            <Modal
+                title="リンク共有"
+                description="このリンクを共有することで、他のユーザーとこのチャートを簡単に共有できます。"
+                isVisible={isModalVisible}
+                onClose={closeModal}
+                footer={
+                    <div className="flex w-full">
+                        <Input placeholder="URL" size="small" className="w-full mr-2" value={shareUrl} readonly />
+                        <Button size="small" onClick={() => navigator.clipboard.writeText(shareUrl)} className="whitespace-nowrap">
+                            コピー
+                        </Button>
+                    </div>
+                }
+            />
         </div>
     );
 }
