@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { db } from "@/lib/firebaseConfig";
 import { collection, addDoc, onSnapshot, query, doc, getDoc, deleteDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 // メッセージの型定義
 type Message = {
@@ -161,9 +162,9 @@ export default function GroupStudy() {
     return (
         <div>
             <Header />
-            <Layout>
+            <>
                 {roomId && roomName ? (
-                    <>
+                    <Layout>
                         <div className="bg-white p-4 rounded-2xl mb-10 flex items-center">
                             <div>
                                 <h1 className="font-bold">{roomName}</h1>
@@ -229,28 +230,22 @@ export default function GroupStudy() {
                                 送信
                             </Button>
                         </div>
-                    </>
+                    </Layout>
                 ) : (
-                    <div className="flex flex-col items-center">
+                    <>
+                    <div className="flex flex-col items-center mt-10">
                         <h1 className="text-[32px] font-bold mb-5">ログイン不要のグループ学習ツール</h1>
                         <Button leftIcon={<FaPlus />} onClick={openCreateRoomModal}>
                             ルームを作成する
                         </Button>
-                        <div className="flex items-center">
                             <div className="w-[400px] select-none">
                                 <img src="/1455.png" />
                             </div>
-                            <div>
-                                <ul className="space-y-2.5 text-[20px] font-bold">
-                                    <li>ログイン不要</li>
-                                    <li>誰でも作成できる</li>
-                                    <li>リンクで共有できる</li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
+                    <Footer />
+                    </>
                 )}
-            </Layout>
+            </>
 
             {/* ルーム作成モーダル */}
             <Modal
