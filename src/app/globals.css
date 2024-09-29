@@ -112,3 +112,14 @@ button:focus-visible {
 .alert-message {
   background-color: rgb(50, 50, 50);
 }
+
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, .25);
+}
+.select {
+  background-color: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

@@ -72,7 +72,6 @@ export default function Header() {
                                 </div>       
                             )}
                         </div>
-
                         {/* ユーザーメニュー */}
                         {userMenu && (
                             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg border rounded-md z-50">
