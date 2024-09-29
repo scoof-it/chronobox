@@ -1,6 +1,5 @@
 "use client";
 import Header from "@/components/Header";
-import Layout from "@/components/Layout";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
@@ -8,9 +7,10 @@ import AlertMessage from "@/components/ui/AlertMessage";
 import { FaPlus, FaShare, FaTrash } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebaseConfig";
-import { collection, addDoc, onSnapshot, query, doc, getDoc, deleteDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, orderBy, doc, getDoc, deleteDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 
 // メッセージの型定義
 type Message = {
@@ -61,7 +61,7 @@ export default function GroupStudy() {
         if (!roomId) return;
 
         const messagesRef = collection(db, "rooms", roomId, "messages");
-        const q = query(messagesRef);
+        const q = query(messagesRef, orderBy("timestamp", "desc")); // タイムスタンプ順に並べ替え
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const fetchedMessages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Message));
             setMessages(fetchedMessages);
@@ -164,11 +164,11 @@ export default function GroupStudy() {
             <Header />
             <>
                 {roomId && roomName ? (
-                    <Layout>
-                        <div className="bg-white p-4 rounded-2xl mb-10 flex items-center">
+                    <div className="mt-10 md:container mx-5 md:mx-auto custom-container space-y-10">
+                        <div className="bg-white p-4 rounded-2xl flex items-center">
                             <div>
                                 <h1 className="font-bold">{roomName}</h1>
-                                <p className="text-xs opacity-50 font-mono">ID: {roomId}</p>
+                                <p className="text-xs text-gray-500 font-mono">{roomId}</p>
                             </div>
                             <div className="ml-auto flex">
                                 <div className="flex">
@@ -180,7 +180,6 @@ export default function GroupStudy() {
                                     >
                                         共有
                                     </Button>
-                                    {/* 削除確認モーダル表示 */}
                                     <Button
                                         size="small"
                                         className="rounded-l-none"
@@ -195,9 +194,9 @@ export default function GroupStudy() {
                                 </Button>
                             </div>
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col space-y-4">
                             {messages.map((message) => (
-                                <div key={message.id} className="flex mb-4">
+                                <div key={message.id} className="flex">
                                     <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
                                         <img src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${message.userName}`} />
                                     </div>
@@ -213,7 +212,7 @@ export default function GroupStudy() {
                                 </div>
                             ))}
                         </div>
-                        <div className="fixed bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
+                        <div className="sticky bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
                             <Input
                                 placeholder="名前"
                                 value={userName}
@@ -230,24 +229,34 @@ export default function GroupStudy() {
                                 送信
                             </Button>
                         </div>
-                    </Layout>
-                ) : (
-                    <>
-                    <div className="flex flex-col items-center mt-10">
-                        <h1 className="text-[32px] font-bold mb-5">ログイン不要のグループ学習ツール</h1>
-                        <Button leftIcon={<FaPlus />} onClick={openCreateRoomModal}>
-                            ルームを作成する
-                        </Button>
-                            <div className="w-[400px] select-none">
-                                <img src="/1455.png" />
-                            </div>
                     </div>
+                ) : (
+                    <div>
+                        <div className="md:mt-10 md:container mx-5 md:mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-2">
+                                <div className="w-[400px] select-none">
+                                    <img src="/1180.png" />
+                                </div>
+                                <div className="flex flex-col justify-center space-y-5">
+                                    <div className="w-[200px] select-none">
+                                        <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
+                                    </div>
+                                    <h1 className="text-[32px] font-bold">ログイン不要のグループ学習ツール</h1>
+                                    <ul className="space-y-2.5 text-[20px] font-bold ml-5 list-disc">
+                                        <li>ログイン不要</li>
+                                        <li>誰でも作成できる</li>
+                                        <li>リンクで共有できる</li>
+                                    </ul>
+                                    <Button leftIcon={<FaPlus />} onClick={openCreateRoomModal}>
+                                        ルームを作成する
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     <Footer />
-                    </>
+                    </div>
                 )}
             </>
-
-            {/* ルーム作成モーダル */}
             <Modal
                 title="ルームを作成"
                 description="ルーム名を入力してください。"
