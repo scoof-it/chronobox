@@ -164,13 +164,13 @@ export default function GroupStudy() {
             <Header />
             <>
                 {roomId && roomName ? (
-                    <div className="mt-10 md:container mx-5 md:mx-auto custom-container space-y-10">
-                        <div className="bg-white p-4 rounded-2xl flex items-center">
+                    <div className="mt-10 md:container mx-5 md:mx-auto space-y-10">
+                        <div className="bg-white p-4 rounded-2xl flex flex-col md:flex-row md:items-center">
                             <div>
                                 <h1 className="font-bold">{roomName}</h1>
                                 <p className="text-xs text-gray-500 font-mono">{roomId}</p>
                             </div>
-                            <div className="ml-auto flex">
+                            <div className="md:ml-auto flex mt-2 md:mt-0">
                                 <div className="flex">
                                     <Button
                                         leftIcon={<FaShare />}
@@ -194,7 +194,7 @@ export default function GroupStudy() {
                                 </Button>
                             </div>
                         </div>
-                        <div className="flex flex-col space-y-4">
+                        <div className="flex flex-col space-y-4 pb-[123px]">
                             {messages.map((message) => (
                                 <div key={message.id} className="flex">
                                     <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
@@ -212,7 +212,7 @@ export default function GroupStudy() {
                                 </div>
                             ))}
                         </div>
-                        <div className="sticky bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
+                        <div className="z-50 fixed bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
                             <Input
                                 placeholder="名前"
                                 value={userName}
@@ -260,12 +260,14 @@ export default function GroupStudy() {
             <Modal
                 title="ルームを作成"
                 description={
-                    <Input
-                        placeholder="ルーム名を入力してください"
-                        onChange={(e) => setRoomName(e.target.value)}
-                    />
+                    <div className="flex whitespace-nowrap space-x-2">
+                        <Input
+                            placeholder="ルーム名を入力してください"
+                            onChange={(e) => setRoomName(e.target.value)}
+                        />
+                        <Button onClick={() => createRoom(roomName || "")}>作成</Button>
+                    </div>
                 }
-                footer={<Button onClick={() => createRoom(roomName || "")}>作成</Button>}
                 isVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
             />

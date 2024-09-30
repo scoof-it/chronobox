@@ -123,10 +123,3 @@ select:focus-visible {
   -moz-appearance: none;
   appearance: none;
 }
-
-.custom-container {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 100%;
-  min-height: calc(100vh - 109px);
-}

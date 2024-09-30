@@ -3,7 +3,7 @@ import { FiX } from 'react-icons/fi';
 
 type ModalProps = {
     title: string;
-    description: React.ReactNode; // Accepts both string and JSX
+    description: React.ReactNode;
     footer?: React.ReactNode;
     isVisible: boolean;
     onClose: () => void;
@@ -28,10 +28,12 @@ const Modal: React.FC<ModalProps> = ({
                         onClick={onClose}
                     />
                 </div>
-                <div className="space-y-2">{description}</div>
-                <div className="flex justify-end space-x-2">
-                    {footer}
-                </div>
+                <div>{description}</div>
+                {footer && (
+                    <div className="flex justify-end space-x-2">
+                        {footer}
+                    </div>
+                )}
             </div>
         </div>
     );
