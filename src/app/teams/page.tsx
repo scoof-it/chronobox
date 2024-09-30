@@ -231,18 +231,19 @@ export default function GroupStudy() {
                         </div>
                     </div>
                 ) : (
-                    <div>
-                        <div className="md:mt-10 md:container mx-5 md:mx-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-2">
-                                <div className="w-[400px] select-none">
-                                    <img src="/1180.png" />
+                    <>
+                        <div className="md:container md:mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2">
+                                <div className="w-full select-none">
+                                    <img src="/1128.png" />
                                 </div>
                                 <div className="flex flex-col justify-center space-y-5">
-                                    <div className="w-[200px] select-none">
-                                        <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
+                                    <div className="flex flex-col items-center">
+                                        <div className="w-full md:w-80 mb-2.5">
+                                            <Image src="/chronoteams.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
+                                        </div>
+                                        <h1 className="text-primary font-bold">ログイン不要のグループ学習ツール</h1>
                                     </div>
-                                    <h1 className="text-[32px] font-bold">ログイン不要のグループ学習ツール</h1>
-                                    <ul className="space-y-2.5 text-[20px] font-bold ml-5 list-disc">
+                                    <ul className="bg-white rounded-2xl space-y-2.5 text-[20px] font-bold p-5 pl-10 list-disc">
                                         <li>ログイン不要</li>
                                         <li>誰でも作成できる</li>
                                         <li>リンクで共有できる</li>
@@ -251,29 +252,23 @@ export default function GroupStudy() {
                                         ルームを作成する
                                     </Button>
                                 </div>
-                            </div>
                         </div>
-                    <Footer />
-                    </div>
+                        <Footer />
+                    </>
                 )}
             </>
             <Modal
                 title="ルームを作成"
-                description="ルーム名を入力してください。"
-                footer={
-                    <div className="flex whitespace-nowrap space-x-2">
-                        <Input
-                            placeholder="ルーム名"
-                            onChange={(e) => setRoomName(e.target.value)}
-                        />
-                        <Button onClick={() => createRoom(roomName || "")}>作成</Button>
-                    </div>
+                description={
+                    <Input
+                        placeholder="ルーム名を入力してください"
+                        onChange={(e) => setRoomName(e.target.value)}
+                    />
                 }
+                footer={<Button onClick={() => createRoom(roomName || "")}>作成</Button>}
                 isVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
             />
-
-            {/* ルーム削除確認モーダル */}
             <Modal
                 title="ルーム削除の確認"
                 description="本当にこのルームを削除しますか？この操作は取り消せません。"

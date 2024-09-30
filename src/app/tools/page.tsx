@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { FaChartArea, FaStickyNote, FaSuperscript, FaUsers } from "react-icons/fa";
+import { FaChartArea, FaUsers } from "react-icons/fa";
 import { FiTool } from "react-icons/fi";
 
 interface Tool {
@@ -21,19 +21,7 @@ const tools: Tool[] = [
     description: "入力したデータから簡単に成績統計をグラフ化できるツールです。",
   },
   {
-    href: "/tools/flashcard",
-    icon: <FaStickyNote />,
-    title: "フラッシュカード",
-    description: "覚えたい内容をカードにして、反復練習でしっかり暗記できます。",
-  },
-  {
-    href: "/tools/equation",
-    icon: <FaSuperscript />,
-    title: "一次方程式と二次方程式",
-    description: "方程式を繰り返し解いて、数学の力を身につけましょう。",
-  },
-  {
-    href: "/tools/group-study",
+    href: "/teams",
     icon: <FaUsers />,
     title: "グループ学習管理",
     description: "チームでの学習管理が簡単に！タスク分担もスムーズです。",

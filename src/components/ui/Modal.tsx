@@ -3,7 +3,7 @@ import { FiX } from 'react-icons/fi';
 
 type ModalProps = {
     title: string;
-    description: string;
+    description: React.ReactNode; // Accepts both string and JSX
     footer?: React.ReactNode;
     isVisible: boolean;
     onClose: () => void;
