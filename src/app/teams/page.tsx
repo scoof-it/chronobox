@@ -212,7 +212,7 @@ export default function GroupStudy() {
                                 </div>
                             ))}
                         </div>
-                        <div className="z-50 fixed bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
+                        <div className="z-40 fixed bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
                             <Input
                                 placeholder="名前"
                                 value={userName}
@@ -264,6 +264,7 @@ export default function GroupStudy() {
                         <Input
                             placeholder="ルーム名を入力してください"
                             onChange={(e) => setRoomName(e.target.value)}
+                            className="w-full"
                         />
                         <Button onClick={() => createRoom(roomName || "")}>作成</Button>
                     </div>

@@ -21,7 +21,7 @@ const AlertMessage: React.FC<AlertMessageProps> = ({ message, type, onClose }) =
 
     return (
         <div
-            className={`alert-message fixed bottom-5 right-5 px-4 py-3 flex items-center shadow-md rounded-md font-bold transform transition-all duration-500
+            className={`z-50 alert-message fixed bottom-5 right-5 px-4 py-3 flex items-center shadow-md rounded-md font-bold transform transition-all duration-500
             ${fadeOut ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
         >
             {type === "success" ? (
