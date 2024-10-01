@@ -30,8 +30,8 @@ export default function Home() {
             </div>
         </div>
         <div className="mt-10 md:mt-0 flex justify-center">
-          <div className="w-80">
-            <img src="/752.png" />
+          <div className="w-80 md:w-[500px]">
+            <Image src="/storyset/collab.svg" alt='' width={100} height={100} className="w-full" />
           </div>
         </div>
       </div>

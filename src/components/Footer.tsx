@@ -12,6 +12,7 @@ export default function Footer() {
                         </div>
                     </Link>
                     <p>&copy; 2024 scoof.</p>
+                    <p>Illustration by <Link href="https://storyset.com" className="text-primary underline">Storyset</Link>.</p>
                 </div>
                 <div className="space-y-2 flex flex-col">
                     <p className="text-[20px] font-bold">Legal</p>
@@ -26,7 +27,7 @@ export default function Footer() {
                 <div className="space-y-2 flex flex-col">
                     <p className="text-[20px] font-bold">About</p>
                     <Link href="#">ChronoBoxについて</Link>
-                    <Link href="#">運営者</Link>
+                    <Link href="#">お問い合わせ</Link>
                 </div>
             </div>
         </div>

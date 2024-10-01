@@ -141,7 +141,6 @@ export default function GroupStudy() {
                 await deleteDoc(doc.ref); // 各メッセージを削除
             });
 
-            // ルームを削除
             await deleteDoc(doc(db, "rooms", roomId));
 
             setAlertMessage("ルームが削除されました");
@@ -149,8 +148,7 @@ export default function GroupStudy() {
             setIsAlertVisible(true);
             setIsDeleteModalVisible(false);
 
-            // ホーム画面に戻る
-            router.push("/tools/group-study");
+            router.push("/teams");
         } catch (error) {
             console.error("ルームの削除に失敗しました:", error);
             setAlertMessage("ルームの削除に失敗しました");
@@ -167,7 +165,7 @@ export default function GroupStudy() {
                     <div className="mt-10 md:container mx-5 md:mx-auto space-y-10">
                         <div className="bg-white p-4 rounded-2xl flex flex-col md:flex-row md:items-center">
                             <div>
-                                <h1 className="font-bold">{roomName}</h1>
+                                <h1 className="text-lg font-bold">{roomName}</h1>
                                 <p className="text-xs text-gray-500 font-mono">{roomId}</p>
                             </div>
                             <div className="md:ml-auto flex mt-2 md:mt-0">
@@ -195,22 +193,30 @@ export default function GroupStudy() {
                             </div>
                         </div>
                         <div className="flex flex-col space-y-4 pb-[123px]">
-                            {messages.map((message) => (
-                                <div key={message.id} className="flex">
-                                    <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
-                                        <img src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${message.userName}`} />
-                                    </div>
-                                    <div>
-                                        <div className="flex items-center">
-                                            <p className="font-bold mb-0.5">{message.userName}</p>
-                                            <p className="ml-2 text-sm opacity-50">
-                                                {new Date(message.timestamp.toDate()).toLocaleTimeString()}
-                                            </p>
+                        {messages.map((message) => (
+                            <div key={message.id} className="flex">
+                                <div>
+                                    {message.userName === "スルギ" || message.userName.toLowerCase() === "seulgi" ? (
+                                        <div className="w-10 h-10 mr-2 bg-white rounded-full overflow-hidden">
+                                            <img src="/seulgi.jpg" />
                                         </div>
-                                        <p className="text-lg">{message.content}</p>
-                                    </div>
+                                    ) : (
+                                        <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
+                                            <img src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${message.userName}`} />
+                                        </div>
+                                    )}
                                 </div>
-                            ))}
+                                <div>
+                                    <div className="flex items-center">
+                                        <p className="font-bold mb-0.5">{message.userName}</p>
+                                        <p className="ml-2 text-sm opacity-50">
+                                            {new Date(message.timestamp.toDate()).toLocaleTimeString()}
+                                        </p>
+                                    </div>
+                                    <p className="text-lg">{message.content}</p>
+                                </div>
+                            </div>
+                        ))}
                         </div>
                         <div className="z-40 fixed bottom-0 left-0 w-full bg-white bg-opacity-50 backdrop-blur border-t p-4 flex">
                             <Input
@@ -232,9 +238,9 @@ export default function GroupStudy() {
                     </div>
                 ) : (
                     <>
-                        <div className="md:container md:mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2">
+                        <div className="md:container md:mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="w-full select-none">
-                                    <img src="/1128.png" />
+                                    <img src="/storyset/team.svg" />
                                 </div>
                                 <div className="flex flex-col justify-center space-y-5">
                                     <div className="flex flex-col items-center">
