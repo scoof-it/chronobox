@@ -232,7 +232,7 @@ export default function GroupStudy() {
                     </div>
                 ) : (
                     <>
-                        <div className="md:container md:mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="md:container mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="w-full select-none">
                                     <img src="/storyset/team.svg" />
                                 </div>
