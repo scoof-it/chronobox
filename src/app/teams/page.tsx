@@ -196,20 +196,14 @@ export default function GroupStudy() {
                         {messages.map((message) => (
                             <div key={message.id} className="flex">
                                 <div>
-                                    {message.userName === "スルギ" || message.userName.toLowerCase() === "seulgi" ? (
-                                        <div className="w-10 h-10 mr-2 bg-white rounded-full overflow-hidden">
-                                            <img src="/seulgi.jpg" />
-                                        </div>
-                                    ) : (
-                                        <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
-                                            <img src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${message.userName}`} />
-                                        </div>
-                                    )}
+                                    <div className="w-10 h-10 p-2 mr-2 bg-white rounded-full overflow-hidden">
+                                        <img src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${message.userName}`} />
+                                    </div>
                                 </div>
                                 <div>
                                     <div className="flex items-center">
                                         <p className="font-bold mb-0.5">{message.userName}</p>
-                                        <p className="ml-2 text-sm opacity-50">
+                                        <p className="ml-2 text-sm text-gray-400">
                                             {new Date(message.timestamp.toDate()).toLocaleTimeString()}
                                         </p>
                                     </div>
