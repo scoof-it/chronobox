@@ -79,7 +79,7 @@ export default function Home() {
           </div>
           <div className="md:hidden relative w-full">
             <div
-              className={`bg-white rounded-2xl p-6 px-8 space-y-2 transform transition-all duration-500 ease-in-out ${
+              className={`bg-white rounded-2xl p-6 px-10 shadow space-y-2 transform transition-all duration-400 ease-in-out ${
                 animating
                   ? direction === 'right'
                     ? 'opacity-0 -translate-x-5'
@@ -93,12 +93,12 @@ export default function Home() {
               </p>
             </div>
             <div className="absolute inset-y-0 left-0 flex items-center">
-              <button onClick={handlePrev} className="text-primary p-2">
+              <button onClick={handlePrev} className="text-primary p-4">
                 <FaArrowLeft />
               </button>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center">
-              <button onClick={handleNext} className="text-primary p-2">
+              <button onClick={handleNext} className="text-primary p-4">
                 <FaArrowRight />
               </button>
             </div>
@@ -107,7 +107,7 @@ export default function Home() {
           <div className="hidden md:block">
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
               {slides.map((slide, index) => (
-                <div key={index} className="bg-white rounded-2xl p-6 space-y-2">
+                <div key={index} className="bg-white rounded-2xl p-6 space-y-2 shadow">
                   <h3 className="font-bold text-lg">{slide.title}</h3>
                   <p className="text-sm">
                     {slide.description}

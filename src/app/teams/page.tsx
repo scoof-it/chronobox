@@ -10,7 +10,6 @@ import { db } from "@/lib/firebaseConfig";
 import { collection, addDoc, onSnapshot, query, orderBy, doc, getDoc, deleteDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
-import Image from "next/image";
 
 // メッセージの型定義
 type Message = {
@@ -233,21 +232,14 @@ export default function GroupStudy() {
                 ) : (
                     <>
                         <div className="md:container mt-10 mx-5 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div className="w-full select-none">
-                                    <img src="/storyset/team.svg" />
+                                <div className="w-full">
+                                    <img src="/storyset/hamburger.svg" />
                                 </div>
-                                <div className="flex flex-col justify-center space-y-5">
-                                    <div className="flex flex-col items-center">
-                                        <div className="w-full md:w-80 mb-2.5">
-                                            <Image src="/chronoteams.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
-                                        </div>
+                                <div className="flex flex-col justify-center">
+                                    <div className="flex flex-col items-center mb-5 md:mb-10">
+                                        <h1 className="text-primary text-[64px] pacifico">CiCi Teams</h1>
                                         <h1 className="text-primary font-bold">ログイン不要のグループ学習ツール</h1>
                                     </div>
-                                    <ul className="bg-white rounded-2xl space-y-2.5 text-[20px] font-bold p-5 pl-10 list-disc">
-                                        <li>ログイン不要</li>
-                                        <li>誰でも作成できる</li>
-                                        <li>リンクで共有できる</li>
-                                    </ul>
                                     <Button leftIcon={<FaPlus />} onClick={openCreateRoomModal}>
                                         ルームを作成する
                                     </Button>
