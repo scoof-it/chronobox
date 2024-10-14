@@ -46,8 +46,8 @@ export default function Header() {
     };
 
     return (
-        <div className="bg-white flex items-center p-4 border-b h-[69px]">
-            <Link href="/" className="w-36">
+        <div className="bg-white flex items-center p-4 h-[69px]">
+            <Link href="/" className="w-16">
                 <Image src="/logotype.svg" alt="ChronoBox" width={100} height={100} className="w-full" />
             </Link>
             <div className="ml-auto flex items-center">
