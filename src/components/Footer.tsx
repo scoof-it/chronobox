@@ -26,7 +26,7 @@ export default function Footer() {
                 </div>
                 <div className="space-y-2 flex flex-col">
                     <p className="text-[20px] font-bold">About</p>
-                    <Link href="#">ChronoBoxについて</Link>
+                    <Link href="#">CiCiについて</Link>
                     <Link href="#">お問い合わせ</Link>
                 </div>
             </div>
